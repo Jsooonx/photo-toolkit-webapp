@@ -138,7 +138,7 @@ export const LandingPage: React.FC = () => {
               className="mb-14"
             >
               <button
-                onClick={() => setActiveTab('dashboard')}
+                onClick={() => { setActiveTab('dashboard'); setActiveTool('resize'); }}
                 className="group flex items-center gap-2.5 px-6 py-3.5 text-base font-bold rounded-full shadow-2xl cursor-pointer transition-all duration-300 hover:scale-105 active:scale-98 bg-white text-black hover:bg-gray-100 hover:shadow-white/5"
               >
                 <span>{t.startNow}</span>

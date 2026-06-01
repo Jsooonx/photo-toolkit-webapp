@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useImageStore } from '../store/imageStore';
 import { getTranslation } from '../constants/translations';
 import { 
@@ -23,8 +24,9 @@ import heroAfter from '../assets/hero_after.png';
 import monochromePortrait from '../assets/monochrome_portrait.png';
 
 export const LandingPage: React.FC = () => {
-  const { theme, settings, setActiveTab, setActiveTool } = useImageStore();
+  const { theme, settings } = useImageStore();
   const t = getTranslation(settings.language);
+  const navigate = useNavigate();
 
   // Accordion FAQ states
   const [openFaq, setOpenFaq] = useState<number | null>(null);
@@ -35,8 +37,7 @@ export const LandingPage: React.FC = () => {
   };
 
   const handleStartEditing = (tool: any) => {
-    setActiveTab('dashboard');
-    setActiveTool(tool);
+    navigate(`/${tool}`);
   };
 
   const featureList = [
@@ -137,15 +138,15 @@ export const LandingPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="mb-14"
             >
-              <button
-                onClick={() => { setActiveTab('dashboard'); setActiveTool('resize'); }}
+              <Link
+                to="/resize"
                 className="group flex items-center gap-2.5 px-6 py-3.5 text-base font-bold rounded-full shadow-2xl cursor-pointer transition-all duration-300 hover:scale-105 active:scale-98 bg-white text-black hover:bg-gray-100 hover:shadow-white/5"
               >
                 <span>{t.startNow}</span>
                 <div className="p-1 rounded-full flex items-center justify-center transition-transform group-hover:rotate-45 bg-black text-white">
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
-              </button>
+              </Link>
             </motion.div>
 
             {/* Social Proof (Stars + count) */}
@@ -681,7 +682,7 @@ export const LandingPage: React.FC = () => {
                 {t.navbar.bgRemover}
               </button>
               <button 
-                onClick={() => { setActiveTab('settings'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                onClick={() => { navigate('/settings'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
                 className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
               >
                 {t.navbar.settings}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useImageStore } from '../store/imageStore';
 import { getTranslation, formatBytes, getSavingPercentage } from '../constants/translations';
+import { seoContent } from '../constants/seoContent';
 import { UploadZone } from '../components/UploadZone';
 import { FileQueue } from '../components/FileQueue';
 import { ImageSlider } from '../components/ImageSlider';
@@ -47,6 +48,37 @@ export const Dashboard: React.FC = () => {
   const t = getTranslation(settings.language);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isManualEditing, setIsManualEditing] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  // Sync metadata for SEO dynamically
+  useEffect(() => {
+    const lang = settings.language;
+    const currentSeo = seoContent[lang]?.[activeTool];
+    if (currentSeo) {
+      document.title = currentSeo.title;
+      
+      const metaDescription = document.querySelector('meta[name="description"]');
+      if (metaDescription) {
+        metaDescription.setAttribute('content', currentSeo.metaDesc);
+      }
+
+      const ogTitle = document.querySelector('meta[property="og:title"]');
+      if (ogTitle) ogTitle.setAttribute('content', currentSeo.title);
+      
+      const ogDesc = document.querySelector('meta[property="og:description"]');
+      if (ogDesc) ogDesc.setAttribute('content', currentSeo.metaDesc);
+
+      const twTitle = document.querySelector('meta[property="twitter:title"]');
+      if (twTitle) twTitle.setAttribute('content', currentSeo.title);
+
+      const twDesc = document.querySelector('meta[property="twitter:description"]');
+      if (twDesc) twDesc.setAttribute('content', currentSeo.metaDesc);
+    }
+  }, [activeTool, settings.language]);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaq(openFaq === index ? null : index);
+  };
 
   const handleSaveManualMask = async (maskDataUrl: string) => {
     if (!selectedFileId) return;
@@ -225,20 +257,15 @@ export const Dashboard: React.FC = () => {
 
           // 2. Draw foreground subject on top
           ctx.drawImage(foregroundCanvas, 0, 0);
-          outputBlob = await convertCanvasToBlob(outputCanvas, outputExt as any);
+          outputBlob = await convertCanvasToBlob(outputCanvas, outputExt === 'png' ? 'png' : 'jpg', 0.9);
           break;
         }
 
         default:
-          throw new Error('Unknown tool');
+          throw new Error('Unsupported active tool operation.');
       }
 
-      // Revoke old processedUrl if it exists to prevent memory leaks
-      if (fileItem.processedUrl) {
-        URL.revokeObjectURL(fileItem.processedUrl);
-      }
-
-      // 3. Save output details
+      // 3. Save output files info
       const processedUrl = URL.createObjectURL(outputBlob);
       updateFile(fileId, {
         processedUrl,
@@ -249,21 +276,10 @@ export const Dashboard: React.FC = () => {
         progress: 100
       });
 
-      // Extract filename base
-      const originalName = fileItem.name;
-      const dotIndex = originalName.lastIndexOf('.');
-      const baseName = dotIndex !== -1 ? originalName.substring(0, dotIndex) : originalName;
-      const filename = `${baseName}_${activeTool}.${outputExt}`;
-
-      return { blob: outputBlob, filename };
-
-    } catch (error: any) {
-      console.error(error);
-      updateFile(fileId, {
-        status: 'error',
-        errorMessage: error.message || 'Error processing image',
-        progress: 0
-      });
+      return { blob: outputBlob, filename: `${fileItem.name.substring(0, fileItem.name.lastIndexOf('.'))}_edited.${outputExt}` };
+    } catch (err: any) {
+      updateFile(fileId, { status: 'error', errorMessage: err.message || 'Processing failed' });
+      toast.error(`Error processing ${fileItem.name}: ${err.message || err}`);
       return null;
     }
   };
@@ -365,12 +381,34 @@ export const Dashboard: React.FC = () => {
 
   // Count done files
   const completedCount = files.filter(f => f.status === 'done').length;
+  const currentSeo = seoContent[settings.language]?.[activeTool];
 
   return (
-    <div className="flex-1 flex flex-col w-full min-h-0 overflow-hidden">
-      <div className="flex-1 w-full max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row gap-6 h-[calc(100vh-120px)] min-h-[450px]">
+    <div className="flex-1 flex flex-col w-full">
+      {/* 1. Dynamic SEO Header */}
+      {currentSeo && (
+        <div className="w-full max-w-7xl mx-auto px-6 pt-8 pb-2">
+          <div className="flex items-center gap-2 mb-2 text-[#a97b56] font-bold text-xs uppercase tracking-wider">
+            <span className="w-6 h-[1.5px] bg-[#a97b56]/50" />
+            <span>{activeTool === 'bg-remover' ? 'AI Tool' : 'Online Tool'}</span>
+          </div>
+          <h1 className={`font-outfit text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 ${
+            theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'
+          }`}>
+            {currentSeo.h1}
+          </h1>
+          <p className={`text-sm max-w-4xl leading-relaxed ${
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+          }`}>
+            {currentSeo.intro}
+          </p>
+        </div>
+      )}
+
+      {/* 2. Editor Layout Grid */}
+      <div className="w-full max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row gap-6 min-h-[550px] md:h-[620px]">
       
-      {/* 1. LEFT SIDEBAR: Upload list & dropzones */}
+      {/* LEFT SIDEBAR: Upload list & dropzones */}
       <div className={`w-full md:w-80 flex flex-col p-5 rounded-2xl border transition-all ${
         theme === 'dark' ? 'bg-[#0f1015] border-white/5 shadow-2xl' : 'bg-white border-gray-200 shadow-sm'
       }`}>
@@ -534,6 +572,68 @@ export const Dashboard: React.FC = () => {
         <ToolConfigurator onProcess={handleProcess} isProcessing={isProcessing} />
       </div>
       </div>
+
+      {/* Tool-Specific FAQ Section for SEO */}
+      {currentSeo && currentSeo.faqs && (
+        <div className={`w-full border-t py-16 transition-colors ${
+          theme === 'dark' ? 'bg-[#08090d]/30 border-white/5' : 'bg-[#fcfbf9]/40 border-gray-200'
+        }`}>
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-left mb-10">
+              <span className="text-xs font-bold tracking-widest text-[#a97b56] uppercase block mb-2">
+                [ QUESTIONS & ANSWERS ]
+              </span>
+              <h2 className={`font-outfit text-2xl md:text-3xl font-extrabold tracking-tight ${
+                theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'
+              }`}>
+                {settings.language === 'id' ? 'Pertanyaan yang Sering Diajukan' : 'Frequently Asked Questions'}
+              </h2>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {currentSeo.faqs.map((faq: { q: string; a: string }, index: number) => {
+                const isOpen = openFaq === index;
+                return (
+                  <div
+                    key={index}
+                    className={`border rounded-xl transition-all duration-300 ${
+                      theme === 'dark'
+                        ? isOpen ? 'bg-white/5 border-purple-500/30' : 'bg-transparent border-white/5'
+                        : isOpen ? 'bg-black/5 border-purple-500/20' : 'bg-transparent border-black/5'
+                    }`}
+                  >
+                    <button
+                      onClick={() => toggleFaq(index)}
+                      className="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-sm md:text-base cursor-pointer group"
+                    >
+                      <span className={isOpen ? 'text-purple-500' : theme === 'dark' ? 'text-white' : 'text-gray-900'}>
+                        {faq.q}
+                      </span>
+                      <span className={`flex items-center justify-center w-6 h-6 border rounded-md transition-transform duration-300 ${
+                        theme === 'dark' ? 'border-white/20' : 'border-black/20'
+                      } ${isOpen ? 'rotate-45 text-purple-500 border-purple-500/40' : ''}`}>
+                        +
+                      </span>
+                    </button>
+
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className={`px-6 pb-5 pt-1 text-xs md:text-sm leading-relaxed ${
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                      }`}>
+                        {faq.a}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Compact Footer */}
       <footer className={`py-3.5 border-t transition-colors text-xs w-full flex-none ${

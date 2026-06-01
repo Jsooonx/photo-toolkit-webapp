@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useImageStore } from '../store/imageStore';
 import { getTranslation } from '../constants/translations';
 import { Camera, Sun, Moon, Languages, Menu, X, Sliders, RefreshCw, FileImage, User, Sparkles, Settings } from 'lucide-react';
@@ -53,7 +54,7 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
-  const { activeTab, activeTool, theme, settings, setActiveTab, setActiveTool, setTheme, setSettings } = useImageStore();
+  const { activeTab, activeTool, theme, settings, setTheme, setSettings } = useImageStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const t = getTranslation(settings.language);
 
@@ -62,17 +63,6 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
   const toggleLanguage = () => {
     setSettings({ language: settings.language === 'id' ? 'en' : 'id' });
   };
-
-  const handleNavClick = useCallback((tool: any) => {
-    setActiveTab('dashboard');
-    setActiveTool(tool);
-    setMobileOpen(false);
-  }, [setActiveTab, setActiveTool]);
-
-  const handleLandingClick = useCallback(() => {
-    setActiveTab('landing');
-    setMobileOpen(false);
-  }, [setActiveTab]);
 
   useEffect(() => {
     if (mobileOpen) {
@@ -107,8 +97,9 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Logo */}
-        <button
-          onClick={() => { setActiveTab('landing'); setMobileOpen(false); }}
+        <Link
+          to="/"
+          onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2 cursor-pointer group flex-shrink-0"
         >
           <div className={`p-1.5 rounded-lg flex items-center justify-center transition-colors ${
@@ -122,22 +113,25 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             <span className="text-purple-500">Photo</span>
             <span className={`transition-colors ${activeColor}`}>Toolkit</span>
           </span>
-        </button>
+        </Link>
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1">
-          <button onClick={handleLandingClick}
+          <Link to="/"
             className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${activeTab === 'landing' ? `${pillActive} ${activeColor}` : inactiveColor}`}>
             {t.navbar.landing}
-          </button>
-          {toolKeys.map((key) => (
-            <button key={key} onClick={() => handleNavClick(key)}
-              className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
-                activeTab === 'dashboard' && activeTool === key ? `${pillActive} ${activeColor}` : inactiveColor
-              }`}>
-              {t.navbar[navKeyMap[key]]}
-            </button>
-          ))}
+          </Link>
+          {toolKeys.map((key) => {
+            const mappedTool = key === 'bg-remover' ? 'bgRemover' : key;
+            return (
+              <Link key={key} to={`/${key}`}
+                className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
+                  activeTab === 'dashboard' && activeTool === mappedTool ? `${pillActive} ${activeColor}` : inactiveColor
+                }`}>
+                {t.navbar[navKeyMap[key]]}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Right Actions */}
@@ -161,12 +155,12 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
 
           {/* Settings (desktop only) */}
           {activeTab === 'dashboard' && (
-            <button onClick={() => { setActiveTab('settings'); setMobileOpen(false); }}
+            <Link to="/settings"
               className={`hidden md:block px-4 py-2 text-sm font-semibold rounded-full cursor-pointer transition-colors ${
                 theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
               }`}>
               {t.navbar.settings}
-            </button>
+            </Link>
           )}
 
           {/* Hamburger / Close */}
@@ -203,46 +197,59 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             >
               <div className="px-6 py-6 flex flex-col gap-2">
                 {/* Landing link */}
-                <motion.button
+                <motion.div
                   variants={navLinkVariants}
                   custom={0}
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  onClick={handleLandingClick}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer ${
-                    activeTab === 'landing'
-                      ? theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'
-                      : theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-600 hover:text-black hover:bg-black/3'
-                  }`}>
-                  🏠&ensp;{t.navbar.landing}
-                </motion.button>
-
-                {/* Tool links */}
-                {toolKeys.map((key, i) => (
-                  <motion.button
-                    key={key}
-                    variants={navLinkVariants}
-                    custom={i + 1}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    onClick={() => handleNavClick(key)}
-                    className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center gap-3 cursor-pointer ${
-                      activeTab === 'dashboard' && activeTool === key
+                >
+                  <Link
+                    to="/"
+                    onClick={() => setMobileOpen(false)}
+                    className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors cursor-pointer block ${
+                      activeTab === 'landing'
                         ? theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'
                         : theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-600 hover:text-black hover:bg-black/3'
                     }`}>
-                    {toolIcons[key]}
-                    {t.navbar[navKeyMap[key]]}
-                  </motion.button>
-                ))}
+                    🏠&ensp;{t.navbar.landing}
+                  </Link>
+                </motion.div>
+
+                {/* Tool links */}
+                {toolKeys.map((key, i) => {
+                  const mappedTool = key === 'bg-remover' ? 'bgRemover' : key;
+                  const isToolActive = activeTab === 'dashboard' && activeTool === mappedTool;
+                  return (
+                    <motion.div
+                      key={key}
+                      variants={navLinkVariants}
+                      custom={i + 1}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                    >
+                      <Link
+                        to={`/${key}`}
+                        onClick={() => setMobileOpen(false)}
+                        className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center gap-3 cursor-pointer ${
+                          isToolActive
+                            ? theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'
+                            : theme === 'dark' ? 'text-gray-400 hover:text-white hover:bg-white/5' : 'text-gray-600 hover:text-black hover:bg-black/3'
+                        }`}>
+                        {toolIcons[key]}
+                        {t.navbar[navKeyMap[key]]}
+                      </Link>
+                    </motion.div>
+                  );
+                })}
 
                 {/* Settings link (mobile) */}
                 <motion.div variants={navLinkVariants} custom={toolKeys.length + 1} initial="hidden" animate="visible" exit="exit"
                   className="pt-2 mt-2 border-t border-white/10 dark:border-white/5">
-                  <button
-                    onClick={() => { setActiveTab('settings'); setMobileOpen(false); }}
+                  <Link
+                    to="/settings"
+                    onClick={() => setMobileOpen(false)}
                     className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold transition-colors flex items-center gap-3 cursor-pointer ${
                       activeTab === 'settings'
                         ? theme === 'dark' ? 'bg-white/10 text-white' : 'bg-black/5 text-black'
@@ -250,7 +257,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
                     }`}>
                     <Settings className="w-5 h-5 text-gray-400" />
                     {t.navbar.settings}
-                  </button>
+                  </Link>
                 </motion.div>
               </div>
             </motion.div>

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useImageStore } from './store/imageStore';
 import MainLayout from './layouts/MainLayout';
 import LandingPage from './pages/LandingPage';
@@ -6,58 +8,101 @@ import SettingsPage from './pages/Settings';
 import { AnimatePresence, motion } from 'framer-motion';
 
 function App() {
-  const { activeTab } = useImageStore();
+  const { setActiveTab, setActiveTool } = useImageStore();
+  const location = useLocation();
 
-  const renderActivePage = () => {
-    switch (activeTab) {
-      case 'landing':
-        return (
-          <motion.div
-            key="landing"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="flex-1 flex flex-col"
-          >
-            <LandingPage />
-          </motion.div>
-        );
-      case 'dashboard':
-        return (
-          <motion.div
-            key="dashboard"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="flex-1 flex flex-col"
-          >
-            <Dashboard />
-          </motion.div>
-        );
-      case 'settings':
-        return (
-          <motion.div
-            key="settings"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="flex-1 flex flex-col"
-          >
-            <SettingsPage />
-          </motion.div>
-        );
-      default:
-        return <LandingPage />;
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === '/') {
+      setActiveTab('landing');
+    } else if (path === '/settings') {
+      setActiveTab('settings');
+    } else if (path === '/resize') {
+      setActiveTab('dashboard');
+      setActiveTool('resize');
+    } else if (path === '/convert') {
+      setActiveTab('dashboard');
+      setActiveTool('convert');
+    } else if (path === '/compress') {
+      setActiveTab('dashboard');
+      setActiveTool('compress');
+    } else if (path === '/passport') {
+      setActiveTab('dashboard');
+      setActiveTool('passport');
+    } else if (path === '/bg-remover') {
+      setActiveTab('dashboard');
+      setActiveTool('bg-remover');
     }
+  }, [location.pathname, setActiveTab, setActiveTool]);
+
+  const pageVariants = {
+    initial: { opacity: 0, y: 15 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -15 },
   };
+
+  const pageTransition = { duration: 0.35, ease: 'easeInOut' as const };
 
   return (
     <MainLayout>
       <AnimatePresence mode="wait">
-        {renderActivePage()}
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <motion.div
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={pageVariants}
+                transition={pageTransition}
+                className="flex-1 flex flex-col"
+              >
+                <LandingPage />
+              </motion.div>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <motion.div
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                variants={pageVariants}
+                transition={pageTransition}
+                className="flex-1 flex flex-col"
+              >
+                <SettingsPage />
+              </motion.div>
+            }
+          />
+          {[
+            '/resize',
+            '/convert',
+            '/compress',
+            '/passport',
+            '/bg-remover',
+          ].map((path) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <motion.div
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  variants={pageVariants}
+                  transition={pageTransition}
+                  className="flex-1 flex flex-col"
+                >
+                  <Dashboard />
+                </motion.div>
+              }
+            />
+          ))}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </AnimatePresence>
     </MainLayout>
   );

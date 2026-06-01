@@ -22,6 +22,7 @@ import heroBgHuman from '../assets/hero_bg_human.png';
 import heroBefore from '../assets/hero_before.png';
 import heroAfter from '../assets/hero_after.png';
 import monochromePortrait from '../assets/monochrome_portrait.png';
+import logoImg from '../assets/Phototoolkit-logo.png';
 
 export const LandingPage: React.FC = () => {
   const { theme, settings } = useImageStore();
@@ -713,9 +714,7 @@ export const LandingPage: React.FC = () => {
           {/* Column 4: Brand Intro (Minimalist replacement for subscribe) */}
           <div className="flex flex-col items-start max-w-xs">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-1 rounded-lg flex items-center justify-center bg-purple-500/10 text-purple-500">
-                <Camera className="w-4 h-4" />
-              </div>
+              <img src={logoImg} className="w-6 h-6 object-contain" alt="PhotoToolkit Logo" />
               <span className={`font-outfit font-extrabold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'}`}>
                 Photo<span className="text-purple-500">Toolkit</span>
               </span>

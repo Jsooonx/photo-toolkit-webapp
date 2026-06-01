@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useImageStore } from '../store/imageStore';
 import { getTranslation } from '../constants/translations';
-import { Camera, Sun, Moon, Languages, Menu, X, Sliders, RefreshCw, FileImage, User, Sparkles, Settings } from 'lucide-react';
+import { Sun, Moon, Languages, Menu, X, Sliders, RefreshCw, FileImage, User, Sparkles, Settings } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import logoImg from '../assets/Phototoolkit-logo.png';
 
 const toolIcons: Record<string, React.ReactNode> = {
   resize: <Sliders className="w-5 h-5 text-purple-400" />,
@@ -102,13 +103,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
           onClick={() => setMobileOpen(false)}
           className="flex items-center gap-2 cursor-pointer group flex-shrink-0"
         >
-          <div className={`p-1.5 rounded-lg flex items-center justify-center transition-colors ${
-            !showGlassHeader
-              ? 'bg-white/10 group-hover:bg-white/20'
-              : theme === 'dark' ? 'bg-white/10 group-hover:bg-white/20' : 'bg-black/5 group-hover:bg-black/10'
-          }`}>
-            <Camera className="w-5 h-5 text-purple-500" />
-          </div>
+          <img src={logoImg} className="w-8 h-8 object-contain transition-transform group-hover:scale-105" alt="PhotoToolkit Logo" />
           <span className="font-outfit text-lg sm:text-xl font-extrabold tracking-tight">
             <span className="text-purple-500">Photo</span>
             <span className={`transition-colors ${activeColor}`}>Toolkit</span>

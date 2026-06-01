@@ -3,7 +3,6 @@ import { useImageStore } from '../store/imageStore';
 import { getTranslation } from '../constants/translations';
 import { 
   ArrowUpRight, 
-  ChevronDown, 
   Sliders, 
   RefreshCw, 
   FileImage, 
@@ -480,40 +479,45 @@ export const LandingPage: React.FC = () => {
 
       {/* 4. FAQ Section */}
       <section className={`py-24 px-6 md:px-12 transition-colors ${
-        theme === 'dark' ? 'bg-[#0a0b0f]' : 'bg-gray-100'
+        theme === 'dark' ? 'bg-[#0a0b0f]' : 'bg-white'
       }`}>
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className={`font-outfit text-3xl md:text-5xl font-bold mb-4 ${
+            <span className="text-xs font-bold tracking-widest text-purple-500 uppercase block mb-3">
+              FAQ
+            </span>
+            <h2 className={`font-outfit text-3xl md:text-5xl font-extrabold tracking-tight ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              {t.faq.title}
+              {settings.language === 'id' ? 'Semua yang perlu Anda ketahui' : 'Everything you need to know'}
             </h2>
           </div>
 
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col border-t border-gray-200 dark:border-white/10">
             {faqList.map((faq, index) => (
               <div 
                 key={index}
-                className={`rounded-2xl border transition-all ${
-                  theme === 'dark' 
-                    ? 'border-white/5 bg-[#12131a]/30' 
-                    : 'border-black/5 bg-white'
-                }`}
+                className="border-b border-gray-200 dark:border-white/10"
               >
                 <button
                   onClick={() => toggleFaq(index)}
-                  className={`w-full px-6 py-5 flex items-center justify-between text-left font-semibold transition-colors cursor-pointer ${
-                    theme === 'dark' ? 'text-white hover:text-purple-400' : 'text-gray-900 hover:text-purple-500'
+                  className={`w-full py-6 flex items-center justify-between text-left transition-colors cursor-pointer ${
+                    theme === 'dark' ? 'text-white hover:text-purple-400' : 'text-gray-900 hover:text-purple-600'
                   }`}
                 >
-                  <span className="font-outfit text-sm md:text-base">{faq.q}</span>
-                  <motion.div
-                    animate={{ rotate: openFaq === index ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown className="w-5 h-5 opacity-60" />
-                  </motion.div>
+                  <span className="font-outfit text-base md:text-lg font-medium leading-snug">{faq.q}</span>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors flex-shrink-0 ml-4 ${
+                    theme === 'dark' ? 'bg-white/5 text-white' : 'bg-gray-100 text-gray-800'
+                  }`}>
+                    <motion.div
+                      animate={{ rotate: openFaq === index ? 45 : 0 }}
+                      transition={{ duration: 0.25, ease: 'easeInOut' }}
+                      className="w-4 h-4 relative flex items-center justify-center"
+                    >
+                      <span className="absolute w-3.5 h-[1.5px] bg-current rounded-full" />
+                      <span className="absolute w-[1.5px] h-3.5 bg-current rounded-full" />
+                    </motion.div>
+                  </div>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -525,10 +529,10 @@ export const LandingPage: React.FC = () => {
                       transition={{ duration: 0.2 }}
                       className="overflow-hidden"
                     >
-                      <div className={`px-6 pb-6 text-xs sm:text-sm leading-relaxed border-t ${
-                        theme === 'dark' ? 'text-gray-400 border-white/5' : 'text-gray-600 border-gray-100'
+                      <div className={`pb-6 text-sm sm:text-base leading-relaxed ${
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
                       }`}>
-                        <div className="pt-4">{faq.a}</div>
+                        <div className="pr-12 text-sm">{faq.a}</div>
                       </div>
                     </motion.div>
                   )}

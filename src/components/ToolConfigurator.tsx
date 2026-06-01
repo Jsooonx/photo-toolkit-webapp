@@ -68,7 +68,7 @@ export const ToolConfigurator: React.FC<ToolConfiguratorProps> = ({ onProcess, i
         {t.dashboard.settingsTitle}
       </h3>
 
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 space-y-6 overflow-y-auto pr-1.5 scrollbar-thin">
         {/* ================= RESIZE OPTIONS ================= */}
         {activeTool === 'resize' && (
           <div className="space-y-5">

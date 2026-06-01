@@ -36,12 +36,12 @@ function App() {
   }, [location.pathname, setActiveTab, setActiveTool]);
 
   const pageVariants = {
-    initial: { opacity: 0, y: 15 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -15 },
+    initial: { opacity: 0, y: 10, scale: 0.995 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+    exit: { opacity: 0, y: -10, scale: 0.995 },
   };
 
-  const pageTransition = { duration: 0.35, ease: 'easeInOut' as const };
+  const pageTransition = { duration: 0.4, ease: [0.4, 0, 0.2, 1] as const };
 
   return (
     <MainLayout>

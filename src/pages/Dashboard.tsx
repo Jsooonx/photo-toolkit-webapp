@@ -24,6 +24,7 @@ import {
   Info
 } from 'lucide-react';
 import { ManualMaskEditor } from '../components/ManualMaskEditor';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Import template assets for background changer
 import officeBgAsset from '../assets/office_bg.png';
@@ -393,7 +394,7 @@ export const Dashboard: React.FC = () => {
             <span>{activeTool === 'bg-remover' ? 'AI Tool' : 'Online Tool'}</span>
           </div>
           <h1 className={`font-outfit text-3xl sm:text-4xl font-extrabold tracking-tight mb-3 ${
-            theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>
             {currentSeo.h1}
           </h1>
@@ -575,61 +576,67 @@ export const Dashboard: React.FC = () => {
 
       {/* Tool-Specific FAQ Section for SEO */}
       {currentSeo && currentSeo.faqs && (
-        <div className={`w-full border-t py-16 transition-colors ${
-          theme === 'dark' ? 'bg-[#08090d]/30 border-white/5' : 'bg-[#fcfbf9]/40 border-gray-200'
+        <div className={`w-full border-t py-24 px-6 md:px-12 transition-colors ${
+          theme === 'dark' ? 'bg-[#0a0b0f] border-white/5' : 'bg-white border-gray-200'
         }`}>
-          <div className="max-w-4xl mx-auto px-6">
-            <div className="text-left mb-10">
-              <span className="text-xs font-bold tracking-widest text-[#a97b56] uppercase block mb-2">
-                [ QUESTIONS & ANSWERS ]
+          <div className="max-w-3xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <span className="text-xs font-bold tracking-widest text-purple-500 uppercase block mb-3">
+                FAQ
               </span>
-              <h2 className={`font-outfit text-2xl md:text-3xl font-extrabold tracking-tight ${
-                theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'
+              <h2 className={`font-outfit text-3xl md:text-5xl font-extrabold tracking-tight ${
+                theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
-                {settings.language === 'id' ? 'Pertanyaan yang Sering Diajukan' : 'Frequently Asked Questions'}
+                {settings.language === 'id' ? 'Semua yang perlu Anda ketahui' : 'Everything you need to know'}
               </h2>
             </div>
 
-            <div className="flex flex-col gap-3">
-              {currentSeo.faqs.map((faq: { q: string; a: string }, index: number) => {
-                const isOpen = openFaq === index;
-                return (
-                  <div
-                    key={index}
-                    className={`border rounded-xl transition-all duration-300 ${
-                      theme === 'dark'
-                        ? isOpen ? 'bg-white/5 border-purple-500/30' : 'bg-transparent border-white/5'
-                        : isOpen ? 'bg-black/5 border-purple-500/20' : 'bg-transparent border-black/5'
+            <div className="flex flex-col border-t border-gray-200 dark:border-white/10">
+              {currentSeo.faqs.map((faq: { q: string; a: string }, index: number) => (
+                <div 
+                  key={index}
+                  className="border-b border-gray-200 dark:border-white/10"
+                >
+                  <button
+                    onClick={() => toggleFaq(index)}
+                    className={`w-full py-6 flex items-center justify-between text-left transition-colors cursor-pointer ${
+                      theme === 'dark' ? 'text-white hover:text-purple-400' : 'text-gray-900 hover:text-purple-600'
                     }`}
                   >
-                    <button
-                      onClick={() => toggleFaq(index)}
-                      className="w-full px-6 py-4 text-left flex items-center justify-between font-bold text-sm md:text-base cursor-pointer group"
-                    >
-                      <span className={isOpen ? 'text-purple-500' : theme === 'dark' ? 'text-white' : 'text-gray-900'}>
-                        {faq.q}
-                      </span>
-                      <span className={`flex items-center justify-center w-6 h-6 border rounded-md transition-transform duration-300 ${
-                        theme === 'dark' ? 'border-white/20' : 'border-black/20'
-                      } ${isOpen ? 'rotate-45 text-purple-500 border-purple-500/40' : ''}`}>
-                        +
-                      </span>
-                    </button>
-
-                    <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      <div className={`px-6 pb-5 pt-1 text-xs md:text-sm leading-relaxed ${
-                        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                      }`}>
-                        {faq.a}
-                      </div>
+                    <span className="font-outfit text-base md:text-lg font-medium leading-snug">{faq.q}</span>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors flex-shrink-0 ml-4 ${
+                      theme === 'dark' ? 'bg-white/5 text-white' : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      <motion.div
+                        animate={{ rotate: openFaq === index ? 45 : 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        className="w-4 h-4 relative flex items-center justify-center"
+                      >
+                        <span className="absolute w-3.5 h-[1.5px] bg-current rounded-full" />
+                        <span className="absolute w-[1.5px] h-3.5 bg-current rounded-full" />
+                      </motion.div>
                     </div>
-                  </div>
-                );
-              })}
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {openFaq === index && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div className={`pb-6 text-sm sm:text-base leading-relaxed ${
+                          theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                        }`}>
+                          <div className="pr-12 text-sm">{faq.a}</div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              ))}
             </div>
           </div>
         </div>

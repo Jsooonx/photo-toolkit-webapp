@@ -118,20 +118,40 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1">
           <Link to="/"
-            className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${activeTab === 'landing' ? `${pillActive} ${activeColor}` : inactiveColor}`}>
-            {t.navbar.landing}
+            className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
+              activeTab === 'landing' ? activeColor : inactiveColor
+            }`}>
+            {activeTab === 'landing' && (
+              <motion.div layoutId="nav-pill" className={`absolute inset-0 rounded-full ${pillActive}`} transition={{ type: 'spring', stiffness: 400, damping: 32 }} />
+            )}
+            <span className="relative z-10">{t.navbar.landing}</span>
           </Link>
           {toolKeys.map((key) => {
             const mappedTool = key === 'bg-remover' ? 'bgRemover' : key;
+            const isActive = activeTab === 'dashboard' && activeTool === mappedTool;
             return (
               <Link key={key} to={`/${key}`}
-                className={`px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
-                  activeTab === 'dashboard' && activeTool === mappedTool ? `${pillActive} ${activeColor}` : inactiveColor
+                className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
+                  isActive ? activeColor : inactiveColor
                 }`}>
-                {t.navbar[navKeyMap[key]]}
+                {isActive && (
+                  <motion.div layoutId="nav-pill" className={`absolute inset-0 rounded-full ${pillActive}`} transition={{ type: 'spring', stiffness: 400, damping: 32 }} />
+                )}
+                <span className="relative z-10">{t.navbar[navKeyMap[key]]}</span>
               </Link>
             );
           })}
+
+          {/* Settings link always visible on desktop */}
+          <Link to="/settings"
+            className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
+              activeTab === 'settings' ? activeColor : inactiveColor
+            }`}>
+            {activeTab === 'settings' && (
+              <motion.div layoutId="nav-pill" className={`absolute inset-0 rounded-full ${pillActive}`} transition={{ type: 'spring', stiffness: 400, damping: 32 }} />
+            )}
+            <span className="relative z-10">{t.navbar.settings}</span>
+          </Link>
         </nav>
 
         {/* Right Actions */}
@@ -152,16 +172,6 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             }`}>
             {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
-
-          {/* Settings (desktop only) */}
-          {activeTab === 'dashboard' && (
-            <Link to="/settings"
-              className={`hidden md:block px-4 py-2 text-sm font-semibold rounded-full cursor-pointer transition-colors ${
-                theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-black'
-              }`}>
-              {t.navbar.settings}
-            </Link>
-          )}
 
           {/* Hamburger / Close */}
           <button onClick={() => setMobileOpen(!mobileOpen)}

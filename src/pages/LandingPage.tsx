@@ -20,6 +20,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import heroBgHuman from '../assets/hero_bg_human.png';
 import heroBefore from '../assets/hero_before.png';
 import heroAfter from '../assets/hero_after.png';
+import monochromePortrait from '../assets/monochrome_portrait.png';
 
 export const LandingPage: React.FC = () => {
   const { theme, settings, setActiveTab, setActiveTool } = useImageStore();
@@ -234,8 +235,8 @@ export const LandingPage: React.FC = () => {
       }`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className={`font-outfit text-3xl md:text-5xl font-bold mb-4 ${
-              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            <h2 className={`font-outfit text-3xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4 ${
+              theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'
             }`}>
               {t.features.title}
             </h2>
@@ -403,76 +404,131 @@ export const LandingPage: React.FC = () => {
 
       {/* 3. How It Works Section */}
       <section className={`py-24 px-6 md:px-12 transition-colors border-t border-b ${
-        theme === 'dark' ? 'bg-[#08090d] border-white/5' : 'bg-white border-gray-200'
+        theme === 'dark' ? 'bg-[#08090d] border-white/5' : 'bg-[#fcfbf9] border-gray-200'
       }`}>
         <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className={`font-outfit text-3xl md:text-5xl font-bold mb-4 ${
-              theme === 'dark' ? 'text-white' : 'text-gray-900'
+          {/* Left-aligned header to match reference style */}
+          <div className="text-left max-w-3xl mb-16">
+            <span className="text-xs font-bold tracking-widest text-[#a97b56] uppercase block mb-3">
+              [ HOW IT WORKS ]
+            </span>
+            <h2 className={`font-outfit text-3xl md:text-5xl font-extrabold tracking-tight leading-tight ${
+              theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'
             }`}>
-              {t.howItWorks.title}
+              {settings.language === 'id' ? 'Proses instan tanpa upload untuk edit gambar Anda' : 'Simple client-side process to edit your images instantly'}
             </h2>
-            <p className={`text-sm md:text-base ${
-              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              {t.howItWorks.subtitle}
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            {/* Dashed connector line */}
-            <div className="hidden md:block absolute top-[50px] left-[15%] right-[15%] h-[1.5px] border-t border-dashed border-purple-500/30 z-0" />
-
-            {/* Step 1 */}
-            <div className="flex flex-col items-center text-center relative z-10">
-              <div className="w-16 h-16 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-outfit text-xl font-bold mb-6">
-                1
-              </div>
-              <h3 className={`font-outfit text-lg font-bold mb-3 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}>
-                {t.howItWorks.step1}
-              </h3>
-              <p className={`text-xs sm:text-sm max-w-xs leading-relaxed ${
-                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                {t.howItWorks.step1Desc}
-              </p>
+          {/* 4-Card Grid matching reference layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Card 1: Monochrome portrait card */}
+            <div className="relative rounded-[28px] overflow-hidden group shadow-xl h-[380px] flex-shrink-0">
+              <img 
+                src={monochromePortrait} 
+                alt="Portrait" 
+                className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 transition-transform duration-700 group-hover:scale-105" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/5" />
+              <span className="absolute top-6 left-6 font-outfit text-white font-extrabold text-lg tracking-tight">PhotoToolkit®</span>
+              <span className="absolute bottom-6 right-6 text-white/40 text-xs font-semibold">Since 2026</span>
             </div>
 
-            {/* Step 2 */}
-            <div className="flex flex-col items-center text-center relative z-10">
-              <div className="w-16 h-16 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-outfit text-xl font-bold mb-6">
-                2
+            {/* Card 2: Step 1 (Upload) */}
+            <div className={`rounded-[28px] border p-6 flex flex-col justify-between h-[380px] transition-all hover:shadow-lg ${
+              theme === 'dark' ? 'bg-[#0f1015]/60 border-white/5' : 'bg-white border-[#edebe6]'
+            }`}>
+              <div className="flex flex-col items-start">
+                {/* Visual block: Avatar row + Stars */}
+                <div className="flex items-center gap-1 mb-2">
+                  <div className="flex -space-x-2.5">
+                    <div className="flex h-8 w-8 rounded-full border-2 border-white dark:border-[#0f1015] bg-gradient-to-tr from-purple-500 to-indigo-500 items-center justify-center shadow-sm">
+                      <User className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <div className="flex h-8 w-8 rounded-full border-2 border-white dark:border-[#0f1015] bg-gradient-to-tr from-cyan-500 to-blue-500 items-center justify-center shadow-sm">
+                      <Camera className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <div className="flex h-8 w-8 rounded-full border-2 border-white dark:border-[#0f1015] bg-gradient-to-tr from-emerald-500 to-teal-500 items-center justify-center shadow-sm">
+                      <Sparkles className="w-3.5 h-3.5 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex gap-0.5 ml-2 text-amber-500">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">
+                  100% Privacy Secure
+                </span>
               </div>
-              <h3 className={`font-outfit text-lg font-bold mb-3 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}>
-                {t.howItWorks.step2}
-              </h3>
-              <p className={`text-xs sm:text-sm max-w-xs leading-relaxed ${
-                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                {t.howItWorks.step2Desc}
-              </p>
+              <div>
+                <h3 className={`font-outfit text-xl font-bold mb-2.5 ${theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'}`}>
+                  {t.howItWorks.step1}
+                </h3>
+                <p className={`text-xs leading-relaxed font-semibold ${theme === 'dark' ? 'text-gray-400' : 'text-[#706c64]'}`}>
+                  {t.howItWorks.step1Desc}
+                </p>
+              </div>
             </div>
 
-            {/* Step 3 */}
-            <div className="flex flex-col items-center text-center relative z-10">
-              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-outfit text-xl font-bold mb-6">
-                3
+            {/* Card 3: Step 2 (Process) */}
+            <div className={`group rounded-[28px] border p-6 flex flex-col justify-between h-[380px] transition-all hover:shadow-lg ${
+              theme === 'dark' ? 'bg-[#0f1015]/60 border-white/5' : 'bg-white border-[#edebe6]'
+            }`}>
+              <div className="flex flex-col items-start w-full">
+                <div className="text-4xl font-extrabold font-outfit text-[#a97b56] leading-none mb-1">0ms</div>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-3">No Server Latency</span>
+                
+                {/* Signal bar chart with stagger glow on hover, fade out on leave */}
+                <div className="flex items-end gap-1 h-12 w-full pt-2">
+                  {[20, 25, 30, 28, 35, 40, 48, 42, 55, 62, 70, 65, 80, 88, 100].map((h, i) => (
+                    <div 
+                      key={i} 
+                      className="w-1.5 rounded-full bg-[#a97b56]/20 dark:bg-[#a97b56]/30 signal-bar-glow" 
+                      style={{ height: `${h}%`, opacity: 0.2 + (i * 0.05), transitionDelay: `${i * 0.05}s` }} 
+                    />
+                  ))}
+                </div>
               </div>
-              <h3 className={`font-outfit text-lg font-bold mb-3 ${
-                theme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}>
-                {t.howItWorks.step3}
-              </h3>
-              <p className={`text-xs sm:text-sm max-w-xs leading-relaxed ${
-                theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                {t.howItWorks.step3Desc}
-              </p>
+              <div>
+                <h3 className={`font-outfit text-xl font-bold mb-2.5 ${theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'}`}>
+                  {t.howItWorks.step2}
+                </h3>
+                <p className={`text-xs leading-relaxed font-semibold ${theme === 'dark' ? 'text-gray-400' : 'text-[#706c64]'}`}>
+                  {t.howItWorks.step2Desc}
+                </p>
+              </div>
             </div>
+
+            {/* Card 4: Step 3 (Download) */}
+            <div className={`rounded-[28px] border p-6 flex flex-col justify-between h-[380px] relative overflow-hidden transition-all hover:shadow-lg ${
+              theme === 'dark' ? 'bg-[#0f1015]/60 border-white/5' : 'bg-white border-[#edebe6]'
+            }`}>
+              <div className="flex flex-col items-start">
+                <div className="text-4xl font-extrabold font-outfit text-purple-500 leading-none mb-1">ZIP</div>
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">Instant Bulk Export</span>
+              </div>
+              
+              {/* Curved lines vector decoration in bottom right */}
+              <svg className={`absolute bottom-6 right-6 w-20 h-20 opacity-15 pointer-events-none ${
+                theme === 'dark' ? 'text-white' : 'text-gray-900'
+              }`} viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M100,0 C44.77,0 0,44.77 0,100" />
+                <path d="M100,20 C55.82,20 20,55.82 20,100" />
+                <path d="M100,40 C66.86,40 40,66.86 40,100" />
+              </svg>
+
+              <div className="relative z-10">
+                <h3 className={`font-outfit text-xl font-bold mb-2.5 ${theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'}`}>
+                  {t.howItWorks.step3}
+                </h3>
+                <p className={`text-xs leading-relaxed font-semibold ${theme === 'dark' ? 'text-gray-400' : 'text-[#706c64]'}`}>
+                  {t.howItWorks.step3Desc}
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -565,96 +621,117 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Redesigned Large Footer */}
-      <footer className="bg-[#050505] text-gray-400 py-16 border-t border-white/5 transition-colors text-sm w-full">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-10">
+      {/* Redesigned Large Footer matching reference */}
+      <footer className={`py-12 px-6 md:px-12 transition-colors text-sm w-full ${
+        theme === 'dark' 
+          ? 'bg-[#06070a] border-t border-white/5 text-gray-400' 
+          : 'bg-[#fbfaf7] border-t border-[#edebe6] text-[#2c2b29]'
+      }`}>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-left mb-10">
           
-          {/* Brand/Description Column */}
-          <div className="md:col-span-5 flex flex-col items-start text-left">
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-2 cursor-pointer group mb-5"
-            >
-              <div className="p-1.5 rounded-lg flex items-center justify-center bg-white/10 group-hover:bg-white/20 transition-colors">
-                <Camera className="w-5 h-5 text-purple-500" />
-              </div>
-              <span className="font-outfit text-xl font-extrabold tracking-tight text-white">
-                <span>Photo</span>
-                <span className="text-white">Toolkit</span>
-              </span>
-            </button>
-            
-            <p className="text-sm font-medium text-gray-400 max-w-sm mb-6 leading-relaxed">
-              {t.description}
-            </p>
-            
-            <div className="text-xs font-semibold text-gray-500">
-              Created by <a href="https://github.com/Jsooonx" target="_blank" rel="noopener noreferrer" className="text-white hover:text-purple-400 underline transition-colors">Jsooonx</a>
-            </div>
-          </div>
-          
-          {/* Columns spacer */}
-          <div className="hidden md:block md:col-span-1" />
-
-          {/* Sections Column */}
-          <div className="md:col-span-3 flex flex-col items-start text-left">
-            <h4 className="font-outfit text-xs font-bold text-white uppercase tracking-wider mb-5">
-              Sections
+          {/* Column 1: Navigation */}
+          <div className="flex flex-col items-start">
+            <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-[#a97b56] mb-4">
+              Navigation
             </h4>
-            <div className="flex flex-col gap-3.5 text-sm font-medium">
-              <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="text-left text-gray-400 hover:text-white transition-colors cursor-pointer">
+            <div className="flex flex-col gap-2.5 font-semibold text-sm">
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
                 {t.navbar.landing}
               </button>
-              <button onClick={() => handleStartEditing('resize')} className="text-left text-gray-400 hover:text-white transition-colors cursor-pointer">
+              <button 
+                onClick={() => handleStartEditing('resize')} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
                 {t.navbar.resize}
               </button>
-              <button onClick={() => handleStartEditing('convert')} className="text-left text-gray-400 hover:text-white transition-colors cursor-pointer">
+              <button 
+                onClick={() => handleStartEditing('convert')} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
                 {t.navbar.convert}
               </button>
-              <button onClick={() => handleStartEditing('compress')} className="text-left text-gray-400 hover:text-white transition-colors cursor-pointer">
+              <button 
+                onClick={() => handleStartEditing('compress')} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
                 {t.navbar.compress}
               </button>
-              <button onClick={() => handleStartEditing('passport')} className="text-left text-gray-400 hover:text-white transition-colors cursor-pointer">
+            </div>
+          </div>
+
+          {/* Column 2: Pages/Features */}
+          <div className="flex flex-col items-start">
+            <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-[#a97b56] mb-4">
+              Pages
+            </h4>
+            <div className="flex flex-col gap-2.5 font-semibold text-sm">
+              <button 
+                onClick={() => handleStartEditing('passport')} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
                 {t.navbar.passport}
               </button>
-              <button onClick={() => handleStartEditing('bg-remover')} className="text-left text-gray-400 hover:text-white transition-colors cursor-pointer">
+              <button 
+                onClick={() => handleStartEditing('bg-remover')} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
                 {t.navbar.bgRemover}
+              </button>
+              <button 
+                onClick={() => { setActiveTab('settings'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
+                className={`transition-colors cursor-pointer text-left ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
+                {t.navbar.settings}
               </button>
             </div>
           </div>
 
-          {/* Socials Column */}
-          <div className="md:col-span-2 flex flex-col items-start text-left">
-            <h4 className="font-outfit text-xs font-bold text-white uppercase tracking-wider mb-5">
+          {/* Column 3: Socials */}
+          <div className="flex flex-col items-start">
+            <h4 className="text-[10px] font-extrabold uppercase tracking-widest text-[#a97b56] mb-4">
               Socials
             </h4>
-            <div className="flex flex-col gap-3.5 text-sm font-medium">
-              <a href="https://github.com/Jsooonx" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                GitHub
+            <div className="flex flex-col gap-2.5 font-semibold text-sm">
+              <a 
+                href="https://github.com/Jsooonx" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`transition-colors flex items-center gap-2 ${theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-[#2c2b29] hover:text-[#a97b56]'}`}
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 19 19">
+                  <path fillRule="evenodd" d="M9.356 1.85C5.05 1.85 1.57 5.356 1.57 9.694a7.84 7.84 0 0 0 5.324 7.44c.387.079.528-.168.528-.376 0-.182-.013-.805-.013-1.454-2.165.467-2.616-.935-2.616-.935-.349-.91-.864-1.143-.864-1.143-.71-.48.051-.48.051-.48.787.051 1.2.805 1.2.805.695 1.194 1.817.857 2.268.649.064-.507.27-.857.49-1.052-1.728-.182-3.545-.857-3.545-3.87 0-.857.31-1.558.8-2.104-.078-.195-.349-1 .077-2.078 0 0 .657-.208 2.14.805a7.5 7.5 0 0 1 1.946-.26c.657 0 1.328.092 1.946.26 1.483-1.013 2.14-.805 2.14-.805.426 1.078.155 1.883.078 2.078.502.546.799 1.247.799 2.104 0 3.013-1.818 3.675-3.558 3.87.284.247.528.714.528 1.454 0 1.052-.012 1.896-.012 2.156 0 .208.142.455.528.377a7.84 7.84 0 0 0 5.324-7.441c.013-4.338-3.48-7.844-7.773-7.844" clipRule="evenodd"/>
+                </svg>
+                <span>GitHub</span>
               </a>
-              <span className="text-gray-600 select-none">Twitter</span>
-              <span className="text-gray-600 select-none">Instagram</span>
-              <span className="text-gray-600 select-none">TikTok</span>
             </div>
           </div>
 
-          {/* CTA Button Column */}
-          <div className="md:col-span-1 flex items-start justify-end md:justify-start">
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className="group flex items-center gap-2 px-4.5 py-2.5 text-xs font-bold rounded-full bg-white text-black hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 active:scale-95 whitespace-nowrap cursor-pointer shadow-xl"
-            >
-              <span>Launch App</span>
-              <div className="p-0.5 rounded-full flex items-center justify-center transition-transform group-hover:rotate-45 bg-black text-white">
-                <ArrowUpRight className="w-3.5 h-3.5" />
+          {/* Column 4: Brand Intro (Minimalist replacement for subscribe) */}
+          <div className="flex flex-col items-start max-w-xs">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="p-1 rounded-lg flex items-center justify-center bg-purple-500/10 text-purple-500">
+                <Camera className="w-4 h-4" />
               </div>
-            </button>
+              <span className={`font-outfit font-extrabold tracking-tight ${theme === 'dark' ? 'text-white' : 'text-[#2c2b29]'}`}>
+                Photo<span className="text-purple-500">Toolkit</span>
+              </span>
+            </div>
+            <p className={`text-xs leading-relaxed font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-[#706c64]'}`}>
+              {t.description}
+            </p>
           </div>
-          
+
         </div>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 mt-12 pt-6 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-4">
-          <p>© {new Date().getFullYear()} {t.title}. All rights reserved.</p>
-          <p className="opacity-80">100% Client-Side Privacy Protection</p>
+
+        {/* Bottom row line */}
+        <div className={`border-t pt-6 flex flex-col sm:flex-row justify-between items-center text-xs font-semibold gap-4 ${
+          theme === 'dark' ? 'border-white/5 text-gray-500' : 'border-[#edebe6] text-[#706c64]'
+        }`}>
+          <div>Made by Jsooonx</div>
+          <div>2026 © All right reserved</div>
         </div>
       </footer>
     </div>

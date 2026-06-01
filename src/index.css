@@ -97,3 +97,17 @@
 .animate-pulse-slow {
   animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+.signal-bar-glow {
+  transition: background-color 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+
+.group:hover .signal-bar-glow {
+  background-color: #a97b56;
+  box-shadow: 0 0 8px 2px rgba(169, 123, 86, 0.45);
+}
+
+.dark .group:hover .signal-bar-glow {
+  background-color: #a97b56;
+  box-shadow: 0 0 10px 3px rgba(169, 123, 86, 0.55);
+}

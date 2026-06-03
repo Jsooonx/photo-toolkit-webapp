@@ -25,3 +25,15 @@ Refine automatic segmentation results with a built-in paint editor:
 * **Restore Brush**: Paint back any accidentally cut clothing or hair details.
 * **Size & Zoom**: Adjustable brush sizes (5px–150px) and zoom levels (100%–300%) for pixel-level precision.
 * **Undo History**: Supports up to 25 history steps of undo.
+
+## SEO Optimizations
+
+To ensure maximum visibility and a high-quality user experience across search engines, PhotoToolkit incorporates robust search engine optimizations:
+
+* **Dynamic Metadata Routing**: Automatically syncs page titles, meta descriptions, Open Graph (Facebook/LinkedIn) tags, and Twitter cards dynamically based on the active tool (e.g., Image Resizer, Compressor, Background Remover) and user language.
+* **Bilingual SEO Content**: All localized titles, tool descriptions, and SEO headlines support both English (`en`) and Indonesian (`id`) seamlessly.
+* **Schema-Ready FAQ Integration**: Includes custom, tool-specific FAQ accordions at the bottom of the dashboard layout to enhance page depth and target long-tail search queries.
+* **Semantic HTML5 & Structure**: Built using a search-crawler-friendly structure including single `<h1>` tag targets, clean heading hierarchies, and standard layout regions.
+* **Social Sharing Enhancements**: Fully configured Open Graph and Twitter image assets (`Phototoolkit-logo.png`) to ensure beautiful card previews when links are shared.
+* **Canonical URL Tags**: Explicitly defined canonical URLs in the HTML header to prevent duplicate content issues when accessed from multiple web regions.
+

@@ -14,7 +14,7 @@ export interface ToolSEOData {
 export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
   en: {
     resize: {
-      title: 'Free Image Resizer Online — Resize Images Without Quality Loss',
+      title: 'Free Image Resizer Online - Resize Images Without Quality Loss',
       metaDesc: 'Resize images online for free. Adjust pixels, percentages, aspect ratio lock, or use social media presets. 100% local client-side processing.',
       h1: 'Free Online Image Resizer',
       intro: 'Adjust image dimensions instantly. Resize your photos by width and height, lock aspect ratio, scale by percentage, or choose pre-defined dimensions for social media profile headers and posts. Everything runs directly inside your browser for maximum security.',
@@ -34,7 +34,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     convert: {
-      title: 'Online Image Format Converter — Convert JPG, PNG, WebP Instantly',
+      title: 'Online Image Format Converter - Convert JPG, PNG, WebP Instantly',
       metaDesc: 'Convert image formats between JPG, PNG, and WebP instantly in your browser. 100% local, fast batch conversion, secure serverless execution.',
       h1: 'Fast Image Format Converter',
       intro: 'Convert your image formats seamlessly. Choose between PNG (lossless with transparency support), JPG (optimal compression for photographs), and WebP (modern web standard for light and fast loading). Free, instant, and private.',
@@ -54,7 +54,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     compress: {
-      title: 'Free Image Compressor Online — Compress JPG, PNG, WebP to KB',
+      title: 'Free Image Compressor Online - Compress JPG, PNG, WebP to KB',
       metaDesc: 'Reduce image file size in KB or MB without losing visual quality. Adjust quality levels with a live slider. 100% safe client-side compressor.',
       h1: 'Smart Image File Compressor',
       intro: 'Reduce the file size of your photos in seconds. Use our interactive slider to fine-tune the compression level and preview the savings instantly. Shrink images for emails, blogs, or web speed optimization without sacrificing details.',
@@ -74,7 +74,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     passport: {
-      title: 'Auto Passport Photo Maker — 2x3, 3x4, 4x6 Size Generator',
+      title: 'Auto Passport Photo Maker - 2x3, 3x4, 4x6 Size Generator',
       metaDesc: 'Generate professional passport photos online for free. Auto face-centering, background coloring (red, blue, white), and standard layout output.',
       h1: 'Auto Passport Photo Generator',
       intro: 'Convert any portrait photo into a compliant passport size photo instantly. Our client-side algorithm detects and centers your face automatically. Choose official dimensions like 2x3, 3x4, or 4x6, and customize background colors to fit national requirements.',
@@ -94,7 +94,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     'bg-remover': {
-      title: 'AI Background Remover Online — Free Background Eraser',
+      title: 'AI Background Remover Online - Free Background Eraser',
       metaDesc: 'Remove backgrounds from photos instantly using local AI. Free, private, zero server uploads, and high quality transparent PNG output.',
       h1: 'AI-Powered Background Remover',
       intro: 'Erase image backgrounds automatically. Driven by MediaPipe Selfie Segmentation running directly inside your browser, the AI separates the human subject from the background instantly. Edit boundaries manually for flawless results.',
@@ -116,7 +116,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
   },
   id: {
     resize: {
-      title: 'Ubah Ukuran Gambar Gratis — Resize Foto Tanpa Pecah Online',
+      title: 'Ubah Ukuran Gambar Gratis - Resize Foto Tanpa Pecah Online',
       metaDesc: 'Ubah resolusi gambar secara online gratis. Sesuaikan piksel, persentase, kunci rasio aspek, atau gunakan preset media sosial. 100% lokal aman.',
       h1: 'Resize Gambar Online Gratis',
       intro: 'Ubah dimensi lebar dan tinggi foto Anda secara instan. Kunci rasio aspek agar gambar tidak mulur, skala dengan persentase, atau gunakan preset ukuran profil media sosial. Diproses 100% lokal di browser Anda untuk keamanan privasi penuh.',
@@ -136,7 +136,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     convert: {
-      title: 'Konversi Format Gambar Online — Ubah JPG, PNG, WebP Instan',
+      title: 'Konversi Format Gambar Online - Ubah JPG, PNG, WebP Instan',
       metaDesc: 'Ubah format gambar menjadi JPG, PNG, atau WebP gratis langsung di browser Anda. Pemrosesan lokal, konversi massal cepat, aman tanpa upload.',
       h1: 'Konversi Format Foto Instan',
       intro: 'Ubah format file gambar dengan mudah. Pilih PNG (kualitas tinggi dengan latar transparan), JPG (kompresi optimal untuk foto biasa), atau WebP (standar web modern yang sangat ringan). Gratis, cepat, dan aman.',
@@ -156,7 +156,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     compress: {
-      title: 'Kompres Gambar Gratis Online — Perkecil Ukuran KB & MB Foto',
+      title: 'Kompres Gambar Gratis Online - Perkecil Ukuran KB & MB Foto',
       metaDesc: 'Kurangi ukuran file gambar dalam KB/MB tanpa merusak kualitas visual. Gunakan slider kompresi interaktif. 100% aman di browser Anda.',
       h1: 'Kompresor File Gambar Pintar',
       intro: 'Perkecil ukuran penyimpanan foto Anda dalam hitungan detik. Gunakan slider interaktif kami untuk menyesuaikan tingkat kompresi dan lihat estimasi ukuran file hasil kompresi secara real-time. Cocok untuk menghemat kuota dan mematuhi batas upload email atau formulir.',
@@ -176,7 +176,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     passport: {
-      title: 'Pembuat Pas Foto Otomatis — Cetak Ukuran 2x3, 3x4, 4x6 Gratis',
+      title: 'Pembuat Pas Foto Otomatis - Cetak Ukuran 2x3, 3x4, 4x6 Gratis',
       metaDesc: 'Buat pas foto ukuran resmi secara online gratis. Fitur auto-center wajah, ganti warna latar (merah, biru, putih) instan tanpa aplikasi.',
       h1: 'Pembuat Pas Foto Otomatis',
       intro: 'Ubah foto portrait biasa menjadi pas foto resmi siap cetak secara instan. Algoritma lokal kami mendeteksi wajah dan memposisikannya secara presisi di tengah. Atur ukuran resmi seperti 2x3, 3x4, atau 4x6, serta pilih warna latar belakang sesuai persyaratan administrasi negara.',
@@ -196,7 +196,7 @@ export const seoContent: Record<'en' | 'id', Record<string, ToolSEOData>> = {
       ]
     },
     'bg-remover': {
-      title: 'Hapus Background Foto AI Online — Penghapus Latar Belakang Gratis',
+      title: 'Hapus Background Foto AI Online - Penghapus Latar Belakang Gratis',
       metaDesc: 'Hapus latar belakang foto otomatis menggunakan AI lokal. Gratis, aman tanpa upload server, dan menghasilkan file PNG transparan beresolusi tinggi.',
       h1: 'AI Penghapus Background Foto',
       intro: 'Hilangkan latar belakang foto secara otomatis dengan cepat. Menggunakan teknologi MediaPipe Selfie Segmentation yang berjalan langsung di browser, AI kami memisahkan subjek manusia secara instan. Tersedia kuas manual untuk perbaikan detail yang sempurna.',

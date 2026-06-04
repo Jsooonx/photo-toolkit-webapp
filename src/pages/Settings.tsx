@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useImageStore } from '../store/imageStore';
 import { getTranslation } from '../constants/translations';
 import { Sun, Moon, Save, Archive, FileDown } from 'lucide-react';
@@ -7,6 +7,35 @@ import { toast } from 'sonner';
 export const SettingsPage: React.FC = () => {
   const { theme, settings, setTheme, setSettings, setActiveTab } = useImageStore();
   const t = getTranslation(settings.language);
+
+  // Sync metadata for Settings page
+  useEffect(() => {
+    const titleText = settings.language === 'id'
+      ? 'Pengaturan - PhotoToolkit'
+      : 'Settings - PhotoToolkit';
+    const descText = settings.language === 'id'
+      ? 'Atur preferensi bahasa, tema visual (gelap/terang), dan preferensi ekspor gambar PhotoToolkit.'
+      : 'Configure language, visual theme (dark/light), and image export preferences for PhotoToolkit.';
+
+    document.title = titleText;
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', descText);
+    }
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', titleText);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', descText);
+
+    const twTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', titleText);
+
+    const twDesc = document.querySelector('meta[property="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', descText);
+  }, [settings.language]);
 
   const handleSave = () => {
     toast.success('Pengaturan berhasil disimpan!');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useImageStore } from '../store/imageStore';
 import { getTranslation } from '../constants/translations';
@@ -28,6 +28,33 @@ export const LandingPage: React.FC = () => {
   const { theme, settings } = useImageStore();
   const t = getTranslation(settings.language);
   const navigate = useNavigate();
+
+  // Sync metadata for Home page
+  useEffect(() => {
+    const titleText = settings.language === 'id'
+      ? 'PhotoToolkit - Editor & Konverter Gambar All-in-One Gratis'
+      : 'PhotoToolkit - Free All-in-One Client-Side Image Editor';
+    const descText = t.description;
+
+    document.title = titleText;
+
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', descText);
+    }
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', titleText);
+
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', descText);
+
+    const twTitle = document.querySelector('meta[property="twitter:title"]');
+    if (twTitle) twTitle.setAttribute('content', titleText);
+
+    const twDesc = document.querySelector('meta[property="twitter:description"]');
+    if (twDesc) twDesc.setAttribute('content', descText);
+  }, [settings.language, t.description]);
 
   // Accordion FAQ states
   const [openFaq, setOpenFaq] = useState<number | null>(null);

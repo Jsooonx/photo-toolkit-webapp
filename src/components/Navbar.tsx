@@ -122,8 +122,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
             <span className="relative z-10">{t.navbar.landing}</span>
           </Link>
           {toolKeys.map((key) => {
-            const mappedTool = key === 'bg-remover' ? 'bgRemover' : key;
-            const isActive = activeTab === 'dashboard' && activeTool === mappedTool;
+            const isActive = activeTab === 'dashboard' && activeTool === key;
             return (
               <Link key={key} to={`/${key}`}
                 className={`relative px-4 py-2 text-sm font-semibold rounded-full transition-colors cursor-pointer ${
@@ -223,8 +222,7 @@ export const Navbar: React.FC<NavbarProps> = ({ isScrolled }) => {
 
                 {/* Tool links */}
                 {toolKeys.map((key, i) => {
-                  const mappedTool = key === 'bg-remover' ? 'bgRemover' : key;
-                  const isToolActive = activeTab === 'dashboard' && activeTool === mappedTool;
+                  const isToolActive = activeTab === 'dashboard' && activeTool === key;
                   return (
                     <motion.div
                       key={key}
